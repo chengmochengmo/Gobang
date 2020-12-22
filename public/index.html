@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../web/base.css">
+    <link rel="stylesheet" href="../web/css/index.css">
+    <title>五子棋</title>
+</head>
+
+<body>
+    <div class="mask" id="inputInfo">
+        <div class="confirm">
+            <div class="input">
+                <input id="inputUserName" placeholder="请输入用户名" type="text">
+            </div>
+            <div class="btn" id="confirmBtn">确定</div>
+        </div>
+    </div>
+    <div class="roomList" style="display: none;"></div>
+    <div class="room">
+        <div class="user" style="justify-content: flex-start;">
+            <div class="avatar">
+                <img src="../web//images/avatar-boy.png" alt="" width="100%">
+            </div>
+            <div class="username">我爱你</div>
+            <div class="countDown">30s</div>
+        </div>
+        <canvas id="checkerboard" class="checkerboard"></canvas>
+        <div class="user" style="justify-content: flex-end;">
+            <div class="countDown">30s</div>
+            <div class="username">我爱你</div>
+            <div class="avatar">
+                <img src="../web//images/avatar-boy.png" alt="" width="100%">
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="../common/constants.js"></script>
+<script src="../web/js/lib.js"></script>
+<script src="../web/js/game.js"></script>
+<script src="../web/js/index.js"></script>
+</html>
