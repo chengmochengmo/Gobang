@@ -6,7 +6,8 @@ const constants = {
     // socket事件名
     CONNECTION: 'connection', // socket链接事件 服务端
     CONNECT: 'connect', // socket链接事件 客户端
-    PLAYER_JOIN: 'player.join', // 玩家加入事件
+    PLAYER_JOIN: 'player.join', // 玩家加入房间事件
+    PLAYER_LEAVE: 'player.leave', // 玩家退出房间事件
     PIECE_DOWN: 'piece.down', // 棋子下落事件
     MESSAGE: 'message', //发给客户端的普通消息 用于toast展示
 }

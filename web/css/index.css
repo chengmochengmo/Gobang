@@ -63,11 +63,15 @@ body {
     font-size: 24px;
     font-weight: bolder;
     margin: 0 10px;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .user .countDown {
     font-size: 20px;
     font-weight: bold;
-    border: 1px solid #000;
+    border: 1px solid #C1A37B;
     border-radius: 10px;
     width: 54px;
     height: 32px;
@@ -75,4 +79,23 @@ body {
     align-items: center;
     margin: 0 10px;
     justify-content: center;
+    color: #C1A37B;
+}
+.user .active {
+    animation: countDownAni 1s infinite;
+}
+.piece {
+    width: 20px;
+    height: 20px;
+    background: #F2F3F6;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    margin: 0 5px;
+}
+
+@keyframes countDownAni
+{
+    0% {transform: scale(1);}
+    50% {transform: scale(1.2);}
+    100% {transform: scale(1);}
 }

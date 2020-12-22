@@ -1,25 +1,4 @@
 const socket = io.connect('http://localhost:3000/');
-// 持什么颜色棋子
-let pieceColor = '';
-// 双方落子位置
-let blackPlayer = [];
-let whitePlayer = [];
-// 监听与服务器端的连接成功事件
-socket.on(constants.CONNECT,function(){
-    console.log('socket连接成功');
-});
-socket.emit(constants.PLAYER_JOIN, 'room1'); //加入房间
-socket.once(constants.PLAYER_JOIN, function(msg){
-    console.log('棋子颜色：' + msg)
-    pieceColor = msg;
-});
-
-socket.on(constants.MESSAGE, function (data) {
-    console.log(data);
-    if(data.code == 1) {
-        showToast(data.data);
-    }
-})
 
 function Gobang() {
     this.canvas = checkerboard;
@@ -30,8 +9,12 @@ function Gobang() {
     this.init();
     this.eventInit();
     // 接受服务端发来消息
-    socket.on(constants.PIECE_DOWN, (msg) => {
-        this.downPiece(...msg.position, pieceColor == 'black' ? 'white' : 'black');
+    socket.on(constants.PIECE_DOWN, (position) => {
+        this.downPiece(...position, otherPieceColor);
+        otherPieceLists.push(position); // 对方棋子位置存入
+        console.log('对方棋子位置：', otherPieceLists);
+        canHandle = true;
+        countDownStart();
     });
 }
 // 初始化棋盘
@@ -70,12 +53,14 @@ Gobang.prototype.init = function () {
 // 初始化点击事件监听
 Gobang.prototype.eventInit = function () {
     this.canvas.addEventListener('touchstart',(e)=> { //手指按下事件监听
+        if(!canHandle) return;
         const {pageX, pageY} = e.targetTouches[0];
         const {offsetTop} = e.targetTouches[0].target;
         this.lastFill = this.setLastFill();
         this.downingPiece(pageX, pageY - offsetTop);
     },false);
     this.canvas.addEventListener('touchmove',(e)=> { // 手指滑动事件监听
+        if(!canHandle) return;
         let nowTime = (new Date()).valueOf(); // 获取当前时间戳
         if (nowTime - 100 <= this.lastTime) return; // 100ms截流
         this.lastTime = nowTime;
@@ -84,11 +69,17 @@ Gobang.prototype.eventInit = function () {
         this.downingPiece(pageX, pageY - offsetTop);
     },false);
     this.canvas.addEventListener('touchend',(e)=> { // 手指抬起事件监听
+        if(!canHandle) return;
+        canHandle = false;
         const {pageX, pageY} = e.changedTouches[0];
         const {offsetTop} = e.changedTouches[0].target;
         const {X, Y} = getPosition(pageX, pageY - offsetTop, this.spacing);
         // 已经落子 通过websocket发送 并且保存数据
-        socket.emit(constants.PIECE_DOWN, { position: [X, Y] });
+        this.downingPiece(pageX, pageY - offsetTop);
+        pieceLists.push([X, Y]); // 自己棋子位置存入
+        console.log('自己棋子位置：', pieceLists);
+        socket.emit(constants.PIECE_DOWN, { roomName, position: [X, Y] });
+        countDownStart();
     },false);
 }
 // 填补清除后的空白 (优化性能，离屏canvas)

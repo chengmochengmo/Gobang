@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../web/base.css">
+    <link rel="stylesheet" href="../web/css/base.css">
     <link rel="stylesheet" href="../web/css/index.css">
     <title>五子棋</title>
 </head>
@@ -19,21 +19,24 @@
     </div>
     <div class="roomList" style="display: none;"></div>
     <div class="room">
-        <div class="user" style="justify-content: flex-start;">
+        <div class="user" id="left" style="justify-content: flex-start;">
             <div class="avatar">
                 <img src="../web//images/avatar-boy.png" alt="" width="100%">
             </div>
-            <div class="username">我爱你</div>
-            <div class="countDown">30s</div>
+            <div class="username" id="leftUsername">等待玩家加入</div>
+            <div class="piece" id="leftPiece"></div>
+            <div class="countDown" id="leftCountDown">60s</div>
         </div>
         <canvas id="checkerboard" class="checkerboard"></canvas>
-        <div class="user" style="justify-content: flex-end;">
-            <div class="countDown">30s</div>
-            <div class="username">我爱你</div>
+        <div class="user" id="right" style="justify-content: flex-end;">
+            <div class="countDown" id="rightCountDown">60s</div>
+            <div class="piece" id="rightPiece"></div>
+            <div class="username" id="rightUsername">等待玩家加入</div>
             <div class="avatar">
                 <img src="../web//images/avatar-boy.png" alt="" width="100%">
             </div>
         </div>
+        <div id="reStartBtn">重新开始</div>
     </div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
