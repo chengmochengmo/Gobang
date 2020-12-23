@@ -1,11 +1,16 @@
-* { /* 禁用移动端长按选择功能 */
-    -webkit-touch-callout:none;
-	-webkit-user-select:none;
-	-khtml-user-select:none;
-	-moz-user-select:none;
-	-ms-user-select:none;
-	user-select:none;
-}
+ /* 禁用移动端长按选择功能 */
+ canvas,
+ div,
+ span,
+ p,
+ img{ /* 禁用移动端长按选择功能 */
+	 -webkit-user-select:none;
+	 -khtml-user-select:none;
+	 -moz-user-select:none;
+	 -ms-user-select:none;
+	 user-select:none;
+ }
+ 
 
 html,body {
     margin: 0;

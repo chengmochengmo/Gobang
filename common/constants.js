@@ -7,7 +7,7 @@ const constants = {
     PVPMap: {
         black: ['黑'],
         white: ['白'],
-        victoryOrDefeat: (c) => c ? '输' : '赢',
+        victoryOrDefeat: (w, m) => w == m ? '赢' : '输',
         victoryer: (c) => c ? 'other' : 'my'
     },
 

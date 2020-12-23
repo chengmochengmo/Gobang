@@ -14,7 +14,7 @@ function Gobang() {
         otherPieceLists.push(position); // 对方棋子位置存入
         console.log('对方棋子位置：', otherPieceLists);
         canHandle = true;
-        countDownStart(); // 计时
+        countDownRestart(); // 计时
     });
 }
 // 初始化棋盘
@@ -79,7 +79,7 @@ Gobang.prototype.eventInit = function () {
         pieceLists.push([X, Y]); // 自己棋子位置存入
         console.log('自己棋子位置：', pieceLists);
         socket.emit(constants.PIECE_DOWN, { roomName, position: [X, Y] });
-        countDownStart();  // 计时
+        countDownRestart();  // 计时
     },false);
 }
 // 填补清除后的空白 (优化性能，离屏canvas)

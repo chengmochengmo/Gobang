@@ -32,28 +32,42 @@
     <div class="roomList" style="display: none;"></div>
     <!--游戏界面-->
     <div class="room">
-        <div class="user" id="black" style="justify-content: flex-start;">
-            <div class="avatar-box">
-                <div class="avatar">
-                    <img src="../web//images/avatar-boy.png" alt="" width="100%">
+        <div class="user" id="black">
+            <div class="line" style="justify-content: flex-start;">
+                <div class="avatar-box">
+                    <div class="avatar">
+                        <img src="../web/images/avatar-boy.png" alt="" width="100%">
+                    </div>
+                    <div class="ready" id="blackReady">ready</div>
                 </div>
-                <div class="ready" id="blackReady">ready</div>
+                <div class="username" id="blackUsername">等待玩家加入</div>
+                <div class="piece" id="blackPiece"></div>
+                <div class="win-num"><span id="blackWinNum">0</span> 胜</div>
             </div>
-            <div class="username" id="blackUsername">等待玩家加入</div>
-            <div class="piece" id="blackPiece"></div>
-            <div class="countDown" id="blackCountDown">60s</div>
+            <div class="line" style="justify-content: flex-start;">
+                <div class="admin-defeat" id="blackAdminDefeat">认输</div>
+                <div class="regret-chess" id="blackRegretChess">悔棋</div>
+                <div class="countDown" id="blackCountDown">60s</div>
+            </div>
         </div>
         <!--画布-->
         <canvas id="checkerboard" class="checkerboard"></canvas>
-        <div class="user" id="white" style="justify-content: flex-end;">
-            <div class="countDown" id="whiteCountDown">60s</div>
-            <div class="piece" id="whitePiece"></div>
-            <div class="username" id="whiteUsername">等待玩家加入</div>
-            <div class="avatar-box">
-                <div class="avatar">
-                    <img src="../web//images/avatar-boy.png" alt="" width="100%">
+        <div class="user" id="white">
+            <div class="line" style="justify-content: flex-end;">
+                <div class="win-num"><span id="whiteWinNum">0</span> 胜</div>
+                <div class="piece" id="whitePiece"></div>
+                <div class="username" id="whiteUsername">等待玩家加入</div>
+                <div class="avatar-box">
+                    <div class="avatar">
+                        <img src="../web/images/avatar-boy.png" alt="" width="100%">
+                    </div>
+                    <div class="ready" id="whiteReady">ready</div>
                 </div>
-                <div class="ready" id="whiteReady">ready</div>
+            </div>
+            <div class="line" style="justify-content: flex-end;">
+                <div class="countDown" id="whiteCountDown">60s</div>
+                <div class="regret-chess" id="whiteRegretChess">悔棋</div>
+                <div class="admin-defeat" id="whiteAdminDefeat">认输</div>
             </div>
         </div>
     </div>

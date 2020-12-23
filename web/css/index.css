@@ -10,7 +10,7 @@ body {
 .checkerboard {
     width: 96vw;
     height: 96vw;
-    margin: 15vw 0;
+    margin: 2vh 0;
 }
 .confirm {
     width: 80vw;
@@ -45,26 +45,30 @@ body {
 }
 .user {
     width: 100%;
+}
+.user .line {
+    width: 100%;
     box-sizing: border-box;
     padding: 0 10px;
     display: flex;
     align-items: center;
+    margin: 15px 0;
 }
-.user .avatar-box {
+.user .line .avatar-box {
     width: 60px;
     height: 60px;
     position: relative;
     border: 4px solid #fff;
     border-radius: 50%;
 }
-.user .avatar-box .avatar {
+.user .line .avatar-box .avatar {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     overflow: hidden;
     line-height: 0;
 }
-.user .avatar-box .ready {
+.user .line .avatar-box .ready {
     width: 100%;
     text-align: center;
     font-size: 24px;
@@ -76,7 +80,7 @@ body {
     display: none;
 }
 
-.user .username {
+.user .line .username {
     font-size: 24px;
     font-weight: bolder;
     margin: 0 10px;
@@ -85,21 +89,44 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.user .countDown {
+.user .line .admin-defeat,
+.user .line .regret-chess,
+.user .line .countDown {
     font-size: 20px;
-    font-weight: bold;
-    border: 1px solid #C1A37B;
     border-radius: 10px;
-    width: 54px;
+    width: 62px;
     height: 32px;
     display: flex;
     align-items: center;
-    margin: 0 10px;
     justify-content: center;
-    color: #C1A37B;
+    color: #fff;
 }
-.user .active {
+.user .line .admin-defeat {
+    background: #EC5228;
+    border: 2px solid #EC5228;
+}
+.user .line .regret-chess {
+    background: #BDA480;
+    border: 2px solid #BDA480;
+    margin: 0 20px;
+}
+.user .line .countDown {
+    font-weight: bold;
+    border: 2px solid #BDA480;
+    color: #BDA480;
+}
+.user .line .active {
     animation: countDownAni 1s infinite;
+}
+.user .line .win-num {
+    font-size: 20px;
+    color: #BDA480;
+    margin: 0 15px;
+    margin-bottom: 6px;
+}
+.user .line .win-num span {
+    font-size: 32px;
+    font-weight: bolder;
 }
 .piece {
     width: 20px;

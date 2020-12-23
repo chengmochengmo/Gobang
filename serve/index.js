@@ -61,6 +61,7 @@ io.on(constants.CONNECTION, function (socket) {
     // 游戏结束 胜负已分
     socket.on(constants.PLAYER_END, function (data) {
         const {roomName, winner} = data;
+        io.in(roomName).emit(constants.PLAYER_END, winner);
         let room = rooms[roomName];
         for (let i in room) {
             // 重置准备状态
