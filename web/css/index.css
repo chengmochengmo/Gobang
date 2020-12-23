@@ -26,6 +26,7 @@ body {
 .confirm .input {
     width: 80%;
     height: 50px;
+    margin-bottom: 10px;
 }
 .confirm .input input {
     text-align: center;
@@ -41,7 +42,6 @@ body {
     background-color: #C1A37B;
     color: #fff;
     border-radius: 5px;
-    margin-top: 10px;
 }
 .user {
     width: 100%;
@@ -50,13 +50,30 @@ body {
     display: flex;
     align-items: center;
 }
-.user .avatar {
+.user .avatar-box {
     width: 60px;
     height: 60px;
-    overflow: hidden;
-    border-radius: 50%;
-    line-height: 0;
+    position: relative;
     border: 4px solid #fff;
+    border-radius: 50%;
+}
+.user .avatar-box .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    line-height: 0;
+}
+.user .avatar-box .ready {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bolder;
+    color: #C1A37B;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    display: none;
 }
 
 .user .username {

@@ -10,11 +10,11 @@ function Gobang() {
     this.eventInit();
     // 接受服务端发来消息
     socket.on(constants.PIECE_DOWN, (position) => {
-        this.downPiece(...position, otherPieceColor);
+        this.downPiece(...position, pieceColor.other);
         otherPieceLists.push(position); // 对方棋子位置存入
         console.log('对方棋子位置：', otherPieceLists);
         canHandle = true;
-        countDownStart();
+        countDownStart(); // 计时
     });
 }
 // 初始化棋盘
@@ -79,7 +79,7 @@ Gobang.prototype.eventInit = function () {
         pieceLists.push([X, Y]); // 自己棋子位置存入
         console.log('自己棋子位置：', pieceLists);
         socket.emit(constants.PIECE_DOWN, { roomName, position: [X, Y] });
-        countDownStart();
+        countDownStart();  // 计时
     },false);
 }
 // 填补清除后的空白 (优化性能，离屏canvas)
@@ -120,7 +120,12 @@ Gobang.prototype.downingPiece = function (pageX, pageY) {
     this.context.drawImage(this.lastFill, 0, 0);
     this.lastDowningPieceX = X; // 保存上一次选择下落的X位置
     this.lastDowningPieceY = Y; // 保存上一次选择下落的Y位置
-    this.downPiece(X, Y, pieceColor);
+    this.downPiece(X, Y, pieceColor.my);
+}
+// 清空画布 重新开始
+Gobang.prototype.reLoadGame = function () {
+    this.context.clearRect(0,0,this.canvas.width,this.canvas.width);
+    this.init();
 }
 
 // 计算清除位置的X、Y位置

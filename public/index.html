@@ -9,34 +9,53 @@
 </head>
 
 <body>
+    <!--弹窗-->
     <div class="mask" id="inputInfo">
         <div class="confirm">
             <div class="input">
                 <input id="inputUserName" placeholder="请输入用户名" type="text">
             </div>
-            <div class="btn" id="confirmBtn">确定</div>
+            <div class="btn" id="inputBtn">确定</div>
         </div>
     </div>
+    <div class="mask" id="readyConfirm">
+        <div class="confirm">
+            <div class="btn" id="readyBtn">准备</div>
+        </div>
+    </div>
+    <div class="mask" id="reStartConfirm">
+        <div class="confirm">
+            <div class="btn" id="reStartBtn">重新开始</div>
+        </div>
+    </div>
+    <!--大厅-->
     <div class="roomList" style="display: none;"></div>
+    <!--游戏界面-->
     <div class="room">
-        <div class="user" id="left" style="justify-content: flex-start;">
-            <div class="avatar">
-                <img src="../web//images/avatar-boy.png" alt="" width="100%">
+        <div class="user" id="black" style="justify-content: flex-start;">
+            <div class="avatar-box">
+                <div class="avatar">
+                    <img src="../web//images/avatar-boy.png" alt="" width="100%">
+                </div>
+                <div class="ready" id="blackReady">ready</div>
             </div>
-            <div class="username" id="leftUsername">等待玩家加入</div>
-            <div class="piece" id="leftPiece"></div>
-            <div class="countDown" id="leftCountDown">60s</div>
+            <div class="username" id="blackUsername">等待玩家加入</div>
+            <div class="piece" id="blackPiece"></div>
+            <div class="countDown" id="blackCountDown">60s</div>
         </div>
+        <!--画布-->
         <canvas id="checkerboard" class="checkerboard"></canvas>
-        <div class="user" id="right" style="justify-content: flex-end;">
-            <div class="countDown" id="rightCountDown">60s</div>
-            <div class="piece" id="rightPiece"></div>
-            <div class="username" id="rightUsername">等待玩家加入</div>
-            <div class="avatar">
-                <img src="../web//images/avatar-boy.png" alt="" width="100%">
+        <div class="user" id="white" style="justify-content: flex-end;">
+            <div class="countDown" id="whiteCountDown">60s</div>
+            <div class="piece" id="whitePiece"></div>
+            <div class="username" id="whiteUsername">等待玩家加入</div>
+            <div class="avatar-box">
+                <div class="avatar">
+                    <img src="../web//images/avatar-boy.png" alt="" width="100%">
+                </div>
+                <div class="ready" id="whiteReady">ready</div>
             </div>
         </div>
-        <div id="reStartBtn">重新开始</div>
     </div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
