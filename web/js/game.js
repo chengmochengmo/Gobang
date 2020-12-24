@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:3000/');
+const socket = io.connect();
 
 function Gobang() {
     this.canvas = checkerboard;
@@ -11,8 +11,6 @@ function Gobang() {
     // 接受服务端发来消息
     socket.on(constants.PIECE_DOWN, (position) => {
         this.downPiece(...position, pieceColor.other);
-        otherPieceLists.push(position); // 对方棋子位置存入
-        console.log('对方棋子位置：', otherPieceLists);
         canHandle = true;
         countDownRestart(); // 计时
     });

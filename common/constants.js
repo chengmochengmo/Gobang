@@ -8,7 +8,7 @@ const constants = {
         black: ['黑'],
         white: ['白'],
         victoryOrDefeat: (w, m) => w == m ? '赢' : '输',
-        victoryer: (c) => c ? 'other' : 'my'
+        victoryer: c => c ? 'other' : 'my'
     },
 
     // socket事件名

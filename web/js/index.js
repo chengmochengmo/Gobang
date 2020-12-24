@@ -8,7 +8,6 @@ let pieceColor = {
 }
 // 双方落子位置
 let pieceLists = [];
-let otherPieceLists = [];
 // 是否可以落子
 let canHandle = false;
 // 步时
@@ -154,7 +153,6 @@ function reStart() {
     domHandle(reStartConfirm, 'style.display', 'none');
     Game.reLoadGame();
     pieceLists = [];
-    otherPieceLists = [];
     startGame();
 }
 // 当前对局结束 胜负已分
