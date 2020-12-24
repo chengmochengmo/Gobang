@@ -74,7 +74,18 @@ io.on(constants.CONNECTION, function (socket) {
     socket.on(constants.PLAYER_LEAVE, function (roomName) {
         if(rooms[roomName]) delete rooms[roomName][socket.id];
     });
+    // 断开链接
+    socket.on(constants.DISCONNECT, function () {
+        for (let roomName in rooms) {
+            for (let socketId in rooms[roomName]) {
+                if (socket.id == socketId) {
+                    delete rooms[roomName][socket.id];
+                }
+            }
+        }
+    });
 });
+
 
 // 分配棋子颜色
 function getPieceColor(roomName) {

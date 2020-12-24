@@ -3,13 +3,24 @@ const socket = io.connect();
 function Gobang() {
     this.canvas = checkerboard;
     this.context = this.canvas.getContext('2d');
-    this.lastTime = 0; // 上次滑动时间戳 ms
-    this.lastDowningPieceX = -1; // 上一次绘制的没有下落棋子 X坐标
-    this.lastDowningPieceY = -1; // 上一次绘制的没有下落棋子 Y坐标
-    this.init();
+    // 上次滑动时间戳 ms
+    this.lastTime = 0;
+    // 选择落子位置
+    this.lastDowningFill = null;
+    // 落子后 带最后落子标志
+    this.lastDownedFill = null;
+    // 落子后
+    this.lastDownedClearLastFill = null;
+    // 上一次绘制的没有下落棋子
+    this.lastDowningPieceX = -1;
+    this.lastDowningPieceY = -1;
+    this.init(); // 初始化棋盘
     this.eventInit();
     // 接受服务端发来消息
     socket.on(constants.PIECE_DOWN, (position) => {
+        let [X, Y] = position;
+        let piecePosition = `[${X},${Y}]`;
+        otherPieceLists.push(piecePosition); // 自己棋子位置存入
         this.downPiece(...position, pieceColor.other);
         canHandle = true;
         countDownRestart(); // 计时
@@ -17,7 +28,8 @@ function Gobang() {
 }
 // 初始化棋盘
 Gobang.prototype.init = function () {
-    this.context.width = this.context.height = this.canvas.width = this.canvas.height = this.canvas.offsetHeight; //设置棋盘宽高
+    // 设置棋盘宽高
+    this.context.width = this.context.height = this.canvas.width = this.canvas.height = this.canvas.offsetHeight;
     this.grid = 15; // 棋盘网格数
     this.spacing = this.context.width / (this.grid + 1); // 网格间距
     this.pieceSize = this.spacing / 2.5; // 棋子宽度
@@ -50,14 +62,16 @@ Gobang.prototype.init = function () {
 }
 // 初始化点击事件监听
 Gobang.prototype.eventInit = function () {
-    this.canvas.addEventListener('touchstart',(e)=> { //手指按下事件监听
+    //手指按下事件监听
+    this.canvas.addEventListener('touchstart',(e)=> {
         if(!canHandle) return;
         const {pageX, pageY} = e.targetTouches[0];
         const {offsetTop} = e.targetTouches[0].target;
-        this.lastFill = this.setLastFill();
+        this.lastDowningFill = this.setLastFill();
         this.downingPiece(pageX, pageY - offsetTop);
     },false);
-    this.canvas.addEventListener('touchmove',(e)=> { // 手指滑动事件监听
+    // 手指滑动事件监听
+    this.canvas.addEventListener('touchmove',(e)=> {
         if(!canHandle) return;
         let nowTime = (new Date()).valueOf(); // 获取当前时间戳
         if (nowTime - 100 <= this.lastTime) return; // 100ms截流
@@ -66,17 +80,31 @@ Gobang.prototype.eventInit = function () {
         const {offsetTop} = e.targetTouches[0].target;
         this.downingPiece(pageX, pageY - offsetTop);
     },false);
-    this.canvas.addEventListener('touchend',(e)=> { // 手指抬起事件监听
+    // 手指抬起事件监听
+    this.canvas.addEventListener('touchend',(e)=> {
         if(!canHandle) return;
-        canHandle = false;
         const {pageX, pageY} = e.changedTouches[0];
         const {offsetTop} = e.changedTouches[0].target;
         const {X, Y} = getPosition(pageX, pageY - offsetTop, this.spacing);
-        // 已经落子 通过websocket发送 并且保存数据
+        if(X < 0 || Y < 0 || X > 16 || Y > 16){
+            this.context.drawImage(this.lastDowningFill, 0, 0);
+            return showToast('请在棋盘内落子');
+        }
+        let piecePosition = `[${X},${Y}]`;
+        if(pieceLists.indexOf(piecePosition) !== -1 || otherPieceLists.indexOf(piecePosition) !== -1){
+            this.context.drawImage(this.lastDowningFill, 0, 0);
+            return showToast('不能重复位置落子');
+        }
+        canHandle = false;
+        // 已经落子 并且保存数据
         this.downingPiece(pageX, pageY - offsetTop);
-        pieceLists.push([X, Y]); // 自己棋子位置存入
+        pieceLists.push(piecePosition); // 自己棋子位置存入
         console.log('自己棋子位置：', pieceLists);
+        // 调用方法 判断输赢
+        let winSituation = winAlgorithm([X, Y]);
+        // 发送服务端
         socket.emit(constants.PIECE_DOWN, { roomName, position: [X, Y] });
+        if(winSituation != '没有五连') return playend(pieceColor.my);
         countDownRestart();  // 计时
     },false);
 }
@@ -115,10 +143,11 @@ Gobang.prototype.downingPiece = function (pageX, pageY) {
     const lastDowningPieceX = clearRectPosition(this.lastDowningPieceX, this.spacing);
     const lastDowningPieceY = clearRectPosition(this.lastDowningPieceY, this.spacing);
     // this.context.clearRect(0,0,this.canvas.width,this.canvas.width)
-    this.context.drawImage(this.lastFill, 0, 0);
+    this.context.drawImage(this.lastDowningFill, 0, 0);
     this.lastDowningPieceX = X; // 保存上一次选择下落的X位置
     this.lastDowningPieceY = Y; // 保存上一次选择下落的Y位置
     this.downPiece(X, Y, pieceColor.my);
+    this.lastDownedFill = this.setLastFill();
 }
 // 清空画布 重新开始
 Gobang.prototype.reLoadGame = function () {

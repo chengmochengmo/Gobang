@@ -67,6 +67,9 @@ body {
     border-radius: 50%;
     overflow: hidden;
     line-height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .user .line .avatar-box .ready {
     width: 100%;
@@ -106,21 +109,21 @@ body {
     border: 2px solid #EC5228;
 }
 .user .line .regret-chess {
-    background: #BDA480;
-    border: 2px solid #BDA480;
+    background: #C1A37B;
+    border: 2px solid #C1A37B;
     margin: 0 20px;
 }
 .user .line .countDown {
     font-weight: bold;
-    border: 2px solid #BDA480;
-    color: #BDA480;
+    border: 2px solid #C1A37B;
+    color: #C1A37B;
 }
 .user .line .active {
-    animation: countDownAni 1s infinite;
+    animation: Ani 1s infinite;
 }
 .user .line .win-num {
     font-size: 20px;
-    color: #BDA480;
+    color: #C1A37B;
     margin: 0 15px;
     margin-bottom: 6px;
 }
@@ -137,9 +140,8 @@ body {
     margin: 0 5px;
 }
 
-@keyframes countDownAni
+@keyframes Ani
 {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.2);}
-    100% {transform: scale(1);}
+    0% {border: 4px solid rgba(193,163,123, 1);top:-4px;left:-4px;}
+    100% {border: 14px solid rgba(193,163,123, 0);top:-14px;left:-14px;}
 }

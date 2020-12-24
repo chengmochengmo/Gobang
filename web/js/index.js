@@ -8,6 +8,7 @@ let pieceColor = {
 }
 // 双方落子位置
 let pieceLists = [];
+let otherPieceLists = [];
 // 是否可以落子
 let canHandle = false;
 // 步时
@@ -30,11 +31,6 @@ window.onload = function () {
         domHandle(inputInfo,'style.display', 'flex');
     }
 }
-
-// 网页关闭或刷新事件坚挺，离开房间
-window.addEventListener('beforeunload',function() {
-    socket.emit(constants.PLAYER_LEAVE, roomName);
-})
 
 // 绑定全局dom事件
 function documentEventInit() {
@@ -184,7 +180,7 @@ function countDown() {
 
 // 渲染倒计时
 function renderUserCountDown(handle, other) {
-    domHandle([window[handle+ 'CountDown'], window[handle+ 'CountDown'], window[other+ 'CountDown'], window[other+ 'CountDown']], 
+    domHandle([window[handle+ 'CountDown'], window[handle+ 'Avatar'], window[other+ 'Avatar'], window[other+ 'CountDown']], 
         ['innerText', 'classList.add', 'classList.remove', 'innerText'], 
         [`${countDownTimeRunner}s`, 'active', 'active', '60s']);
 }
@@ -192,11 +188,9 @@ function renderUserCountDown(handle, other) {
 function countDownClear() {
     countDownTimeRunner = countDownTime; // 设置步时
     clearTimeout(countDownTimer);
-    domHandle([blackCountDown, whiteCountDown, blackCountDown, whiteCountDown,], 
+    domHandle([blackCountDown, whiteCountDown, blackAvatar, whiteAvatar,], 
         ['innerText', 'innerText', 'classList.remove', 'classList.remove',], 
         ['60s', '60s', 'active', 'active']);
-    blackCountDown.innerText = '60s';
-    whiteCountDown.innerText = '60s';
 }
 // 落子后重计时
 function countDownRestart() {

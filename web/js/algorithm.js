@@ -25,10 +25,11 @@
 function winAlgorithm(piecePosition) {
     // 解构新落下棋子的位置信息
     let [pieceX, pieceY] = piecePosition;
-    // 三个方向有多少连子 超过5个即为获胜
+    // 四个方向有多少连子 超过5个即为获胜
     let rowConnectNum = 0;
     let columnConnectNum = 0;
-    let obliqueConnectNum = 0;
+    let obliqueDownConnectNum = 0;
+    let obliqueUpConnectNum = 0;
     // 查找的条件
     let deviation = 4;
     let frequency = 9;
@@ -45,12 +46,16 @@ function winAlgorithm(piecePosition) {
     }
     // 落子后 查找当前落子点为中点 最大范围上下左右4格内 是否出现5连
     while (pointer < frequency) {
+        // 算出连成线的棋子的路径
         let x = pieceX + pointer - deviation;
         let y = pieceY + pointer - deviation;
+        let minusY = pieceY + (frequency - 1 -pointer) - deviation;
         // 算出来可能连着位置的所有坐标
         let row = `[${x},${pieceY}]`;
         let column = `[${pieceX},${y}]`;
-        let oblique = `[${x},${y}]`;
+        let obliqueDown = `[${x},${y}]`;
+        let obliqueUp = `[${x},${minusY}]`;
+        
         // 在棋子位置数组中进行匹配 没有匹配到的话就清0 因为不是连着的了
         if (pieceLists.indexOf(row) !== -1) {
             rowConnectNum++;
@@ -68,13 +73,21 @@ function winAlgorithm(piecePosition) {
         if(columnConnectNum == 5) {
             return '竖向五连';
         }
-        if (pieceLists.indexOf(oblique) !== -1) {
-            obliqueConnectNum++;
+        if (pieceLists.indexOf(obliqueDown) !== -1) {
+            obliqueDownConnectNum++;
         } else{
-            obliqueConnectNum = 0;
+            obliqueDownConnectNum = 0;
         }
-        if(obliqueConnectNum == 5) {
-            return '斜向五连';
+        if(obliqueDownConnectNum == 5) {
+            return '向下斜向五连';
+        }
+        if (pieceLists.indexOf(obliqueUp) !== -1) {
+            obliqueUpConnectNum++;
+        } else{
+            obliqueUpConnectNum = 0;
+        }
+        if(obliqueUpConnectNum == 5) {
+            return '向上斜向五连';
         }
         pointer++;
     }

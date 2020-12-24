@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../web/css/base.css">
     <link rel="stylesheet" href="../web/css/index.css">
     <title>五子棋</title>
@@ -35,7 +36,7 @@
         <div class="user" id="black">
             <div class="line" style="justify-content: flex-start;">
                 <div class="avatar-box">
-                    <div class="avatar">
+                    <div class="avatar" id="blackAvatar">
                         <img src="../web/images/avatar-boy.png" alt="" width="100%">
                     </div>
                     <div class="ready" id="blackReady">ready</div>
@@ -58,7 +59,7 @@
                 <div class="piece" id="whitePiece"></div>
                 <div class="username" id="whiteUsername">等待玩家加入</div>
                 <div class="avatar-box">
-                    <div class="avatar">
+                    <div class="avatar" id="whiteAvatar">
                         <img src="../web/images/avatar-boy.png" alt="" width="100%">
                     </div>
                     <div class="ready" id="whiteReady">ready</div>
@@ -75,6 +76,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="../common/constants.js"></script>
 <script src="../web/js/lib.js"></script>
+<script src="../web/js/algorithm.js"></script>
 <script src="../web/js/game.js"></script>
 <script src="../web/js/index.js"></script>
 </html>

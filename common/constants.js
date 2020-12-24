@@ -14,6 +14,7 @@ const constants = {
     // socket事件名
     CONNECTION: 'connection', // socket链接事件 服务端
     CONNECT: 'connect', // socket链接事件 客户端
+    DISCONNECT: 'disconnect', // socket断开事件
     PLAYER_JOIN: 'player.join', // 玩家加入房间
     PLAYER_LEAVE: 'player.leave', // 玩家退出房间
     PLAYER_INFO: 'player.info', // 分配玩家信息
