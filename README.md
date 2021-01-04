@@ -1,7 +1,7 @@
 ## 多房间五子棋对战
 
 #### 拉取项目
-`git clone -b main https://github.com/chengmochengmo/Gobang.git`
+`git clone -b dev https://github.com/chengmochengmo/Gobang.git`
 
 #### 安装模块
 `npm install`
