@@ -21,7 +21,9 @@ const constants = {
     PLAYER_READY: 'player.ready', // 玩家准备
     PLAYER_END: 'player.end', // 对局结束 胜负已经分
     PIECE_DOWN: 'piece.down', // 棋子下落事件
-    MESSAGE: 'message', // 发给客户端的普通消息 用于toast展示
+    ROOMS_INFO: 'rooms.info', // 游戏大厅信息
+
+    MESSAGE: 'message', // 发给客户端的普通消息 {code: 0, data: 'xxx'}, 0：成功、下一步 1：前端toast内容
 }
 
 if (typeof window !== 'undefined' && this === window) {

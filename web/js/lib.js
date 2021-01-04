@@ -14,7 +14,7 @@ function showToast (content, time, cb) {
         cb && cb();
     }, time || 2500);
 }
-// 创建弹窗
+// 创建弹窗DOM元素
 function createToast() {
     maskDiv = document.createElement('div');
     toastDiv = document.createElement('div');
@@ -26,7 +26,7 @@ function createToast() {
     
 }
 
-// 操作dom通用方法
+// DOM操作通用方法
 function domHandle(dom, method, value) {
     if (Array.isArray(dom) && Array.isArray(method) && Array.isArray(value)) {
         if (dom.length !== method.length || method.length !== value.length) throw new Error('domHandle args: length is difference');
@@ -43,4 +43,17 @@ function domHandle(dom, method, value) {
     }
     if (typeof (new Function('dom', `return ${domMethod}`))(dom) === 'function') return (new Function('dom', `${domMethod}('${value}')`))(dom);
     return (new Function('dom', `${domMethod}='${value}'`))(dom);
+}
+
+// 事件委托 查找元素
+function getNode(node) {
+    try {
+        if (node && node.className === 'room-item') {
+            return node;
+        } else {
+            return getNode(node.parentNode);
+        }
+    } catch (e) {
+        return null;
+    }
 }

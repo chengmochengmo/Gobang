@@ -1,5 +1,3 @@
-const socket = io.connect();
-
 function Gobang() {
     this.canvas = checkerboard;
     this.context = this.canvas.getContext('2d');

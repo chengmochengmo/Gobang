@@ -1,16 +1,36 @@
 body {
-    padding: 2vw;
-    box-sizing: border-box;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-around;
     background-color: #F2F3F6;
 }
+.game {
+    padding: 5vw;
+    padding-top: 10vw;
+    box-sizing: border-box;
+}
+.game .goback-room-lists {
+    font-size: 14px;
+    border-radius: 10px;
+    width: 52px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #C1A37B;
+    border: 2px solid #C1A37B;
+    position: fixed;
+    top: 2vh;
+    opacity: 0.5;
+    left: 5vw;
+    z-index: 1999;
+}
 .checkerboard {
-    width: 96vw;
-    height: 96vw;
-    margin: 2vh 0;
+    width: 90vw;
+    height: 90vw;
+    margin: 1vh 0;
 }
 .confirm {
     width: 80vw;
@@ -52,7 +72,7 @@ body {
     padding: 0 10px;
     display: flex;
     align-items: center;
-    margin: 15px 0;
+    margin: 10px 0;
 }
 .user .line .avatar-box {
     width: 60px;
@@ -138,6 +158,54 @@ body {
     border-radius: 50%;
     box-shadow: 0 0 4px rgba(0,0,0,0.4);
     margin: 0 5px;
+}
+.room-lists {
+    width: 100%;
+    height: 100%;
+    background: url('../images/index-bg.jpg') no-repeat;
+    background-size: 100% 100%;
+    overflow-y: scroll;
+    padding: 5vh 4vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.room-lists .room-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 3vh;
+}
+
+.room-lists .room-item .room-item-avatar {
+    width: 55px;
+}
+.room-lists .room-item .room-item-avatar img {
+    border-radius: 50%;
+}
+.room-lists .room-item .room-item-avatar .room-item-username {
+    font-size: 10px;
+    margin-top: 5px;
+    width: 100%;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.room-lists .room-item .room-item-checkerboard {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+
+.filter {
+    -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    filter: grayscale(100%);
 }
 
 @keyframes Ani

@@ -40,6 +40,7 @@ input {
 	top: 0;
 	left: 0;
 	display: none;
+	z-index: 999;
 }
 
 .toast {
@@ -51,4 +52,5 @@ input {
 	padding: 20px 30px;
 	border-radius: 5px;
 	background-color: rgba(0,0,0,0.6);
+	z-index: 999;
 }
