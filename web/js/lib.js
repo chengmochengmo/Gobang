@@ -46,12 +46,13 @@ function domHandle(dom, method, value) {
 }
 
 // 事件委托 查找元素
-function getNode(node) {
+function getNode(node, className) {
     try {
-        if (node && node.className === 'room-item') {
+        if (node && node.className === className) {
+            console.log('相等',className)
             return node;
         } else {
-            return getNode(node.parentNode);
+            return getNode(node.parentNode, className);
         }
     } catch (e) {
         return null;

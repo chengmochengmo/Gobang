@@ -26,13 +26,12 @@ function winAlgorithm(piecePosition) {
         // 算出连成线的棋子的路径
         let x = pieceX + pointer - deviation;
         let y = pieceY + pointer - deviation;
-        let minusY = pieceY + (frequency - 1 -pointer) - deviation;
+        let minusY = pieceY + (frequency - 1 - pointer) - deviation;
         // 算出来可能连着位置的所有坐标
         let row = `[${x},${pieceY}]`;
         let column = `[${pieceX},${y}]`;
         let obliqueDown = `[${x},${y}]`;
         let obliqueUp = `[${x},${minusY}]`;
-        
         // 在棋子位置数组中进行匹配 没有匹配到的话就清0 因为不是连着的了
         if (pieceLists.indexOf(row) !== -1) {
             rowConnectNum++;
