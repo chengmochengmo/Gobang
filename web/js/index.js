@@ -22,7 +22,9 @@ let userId = localStorage.getItem('userId');
 let socketId = null;
 
 window.onload = function () {
-    // showToast("温馨提示：\\n1.由于此游戏运行于网页，中途尽量不要刷新；\\n2.游戏未经专业测试，可能会有bug，如遇bug请微信上反馈，非常感谢～", 5000);
+    showToast(
+        "温馨提示：\\n1.由于此游戏运行于网页，体验暂时不是很好，中途尽量不要刷新；\\n2.只监听了touch没有监听click，所以在电脑上无法使用，只能手机上使用；\\n3.游戏未经专业测试，可能会有bug，如遇bug请微信上反馈，非常感谢～", 
+        8 * 1000);
     documentEventInit();  // 注册全局dom事件
     if(!userName) {
         domHandle(inputInfo,'style.display', 'flex');
@@ -142,7 +144,7 @@ function documentEventInit() {
                 apply: false,
                 feedback: ok && true
             });
-            ok && Game.reLastDraw('other');
+            ok && Game.reLastDraw('other', true);
             domHandle(reChessConfirm, 'style.display', 'none');
         }
     })
@@ -252,7 +254,7 @@ function initGame() {
         } else {
             // 我像别人申请悔棋得到的反馈
             if (feedback) {
-                Game.reLastDraw('my');
+                Game.reLastDraw('my', true);
                 canHandle = true;
                 pieceLists.pop();
             } else {

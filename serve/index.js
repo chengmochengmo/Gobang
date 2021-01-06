@@ -13,7 +13,7 @@ app.use('/web', express.static(path.join(__dirname, '../web')));
 
 const server = http.createServer(app);
 const io = IO(server, {
-    pingInterval: 5000,
+    pingInterval: 3000,
     pingTimeout: 2000,
 });
 
@@ -165,4 +165,4 @@ function emitRoomInfo(roomName) {
     io.in(roomName).emit(constants.PLAYER_JOIN, rooms[roomName]);
 }
 
-server.listen(3000);
+server.listen(31231);

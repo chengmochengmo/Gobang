@@ -7,7 +7,8 @@
 `npm install`
 
 #### 本地运行
-`npm run serve`
+- 安装nodemon `npm install nodemon -g`
+- 启动项目 `npm run serve` 
 
 > 部署需要node环境 推荐pm2启动
 

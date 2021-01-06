@@ -6,8 +6,10 @@ function Gobang() {
     // 选择落子时画布
     this.myLastDowningFill = null;
     this.otherLastDowningFill = null;
-    // this.lastX = -1;
-    // this.lastY = -1;
+    // 上次落子位置提示
+    this.lastPosition = [-1, -1];
+    this.relastPosition = [-1, -1];
+    this.clearLastPoint = true;
     this.init(); // 初始化棋盘
     this.eventInit();
     // 接受服务端发来消息
@@ -15,7 +17,7 @@ function Gobang() {
         let [X, Y] = position;
         let piecePosition = `[${X},${Y}]`;
         otherPieceLists.push(piecePosition); // 对手棋子位置存入
-        this.downPiece(...position, pieceColor.other);
+        this.downPiece(...position, pieceColor.other, true);
         canHandle = true;
         countDownRestart(); // 计时
     });
@@ -91,11 +93,7 @@ Gobang.prototype.eventInit = function () {
         }
         canHandle = false;
         // 已经落子 并且保存数据
-        this.downingPiece(pageX, pageY - offsetTop);
-        // // 清除上一次的小红点 todo……
-        // this.drawCircular(this.lastX * this.spacing, this.lastY * this.spacing, this.pieceSize, pieceColor.other);
-        // this.lastX = pageX;
-        // this.lastY = pageY;
+        this.downingPiece(pageX, pageY - offsetTop, true);
         pieceLists.push(piecePosition); // 自己棋子位置存入
         console.log('自己棋子位置：', pieceLists);
         // 调用方法 判断输赢
@@ -132,19 +130,30 @@ Gobang.prototype.drawCircular = function (x, y, radius, color) {
     this.context.fill(); // 填充
 }
 // 落子 绘制棋子
-Gobang.prototype.downPiece = function (x, y, color) {
+Gobang.prototype.downPiece = function (x, y, color, down) {
     this.drawCircular(this.spacing * x, this.spacing * y, this.pieceSize, color || 'black');
     this.drawCircular(this.spacing * x, this.spacing * y, this.pieceSize / 8, 'red');
+    // 清除上一次的小红点
+    if (down) {
+        if (!this.clearLastPoint) {
+            this.lastPosition = this.relastPosition;
+        }
+        this.relastPosition = this.lastPosition
+        this.drawCircular(this.lastPosition[0] * this.spacing, this.lastPosition[1] * this.spacing, this.pieceSize, constants.PVPMap.otherColor(color));
+        this.lastPosition = [x, y]
+        this.clearLastPoint = true;
+    }
 }
 // 选择落子位置提示
-Gobang.prototype.downingPiece = function (pageX, pageY) {
+Gobang.prototype.downingPiece = function (pageX, pageY, down) {
     const {X, Y} = getPosition(pageX, pageY, this.spacing);
     this.reLastDraw('my');
-    this.downPiece(X, Y, pieceColor.my);
+    this.downPiece(X, Y, pieceColor.my, down);
     this.otherLastDowningFill = this.setLastFill();
 }
 // 恢复上一次落子前的画布
-Gobang.prototype.reLastDraw = function (player) {
+Gobang.prototype.reLastDraw = function (player, isReChess) {
+    if(isReChess) this.clearLastPoint = false;
     this.context.drawImage(this[player + 'LastDowningFill'], 0, 0);
 }
 // 清空画布 重新开始
