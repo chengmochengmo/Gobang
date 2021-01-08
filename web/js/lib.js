@@ -1,7 +1,8 @@
 let maskDiv = undefined;
 let toastDiv = undefined;
+
 // 展示弹窗 单例
-function showToast (content, time, cb) {
+export function showToast (content, time, cb) {
     if (!maskDiv) {
         createToast();
     }
@@ -27,7 +28,7 @@ function createToast() {
 }
 
 // DOM操作通用方法
-function domHandle(dom, method, value) {
+export function domHandle(dom, method, value) {
     if (Array.isArray(dom) && Array.isArray(method) && Array.isArray(value)) {
         if (dom.length !== method.length || method.length !== value.length) throw new Error('domHandle args: length is difference');
         for(let i = 0; i < dom.length; i++) {
@@ -46,7 +47,7 @@ function domHandle(dom, method, value) {
 }
 
 // 事件委托 查找元素
-function getNode(node, className) {
+export function getNode(node, className) {
     try {
         if (node && node.className === className) {
             console.log('相等',className)

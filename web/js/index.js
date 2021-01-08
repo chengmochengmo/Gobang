@@ -1,25 +1,26 @@
-let Game = undefined;
-// 房间名
-let roomName = undefined;
-// 颜色棋子
-let pieceColor = {
-    my: '',
-    other: ''
-}
-// 双方落子位置
-let pieceLists = [];
-let otherPieceLists = [];
-// 是否可以落子
-let canHandle = false;
-// 步时
-let countDownTime = 60;
-let countDownTimeRunner = 0;
-// 步时定时器
-let countDownTimer = null;
-// 用户名
-let userName = localStorage.getItem('userName');
-let userId = localStorage.getItem('userId');
-let socketId = null;
+// socket实例
+import socket from './socket'
+// 游戏
+import Gobang from './game'
+// 工具方法
+import { showToast, domHandle, getNode} from './lib'
+// 全局变量
+import {
+    Game,
+    roomName,
+    pieceColor,
+    pieceLists,
+    otherPieceLists,
+    canHandle,
+    countDownTime,
+    countDownTimeRunner,
+    countDownTimer,
+    userName,
+    userId,
+    socketId
+} from './var'
+// 全局常量
+const constants = require('../../common/constants');
 
 window.onload = function () {
     showToast(
@@ -70,14 +71,14 @@ var renderGamesLobby = function(rooms) {
         let people2 = peoples.length == 2 && room[peoples[1]];
         let div = `<div class="room-item" id="${i}">
             <div class="room-item-avatar left-avatar ${people1 || 'filter'}">
-                <img src="../web/images/avatar-boy.png" alt="" width="100%">
+                <img src="${require('/images/avatar-boy.png')}" alt="" width="100%">
                 <div class="room-item-username left-username">${people1 ? people1.userName : '待加入'}</div>
             </div>
             <div class="room-item-checkerboard ${peoples.length == 2 ? '' : 'filter'}">
-                <img src="../web/images/checkerboard.png" alt="" width="100%">
+                <img src="${require('/images/checkerboard.png')}" alt="" width="100%">
             </div>
             <div class="room-item-avatar right-avatar ${people2 || 'filter'}"">
-                <img src="../web/images/avatar-boy.png" alt="" width="100%">
+                <img src="${require('/images/avatar-boy.png')}" alt="" width="100%">
                 <div class="room-item-username right-username">${people2 ? people2.userName : '待加入'}</div>
             </div>
         </div>`

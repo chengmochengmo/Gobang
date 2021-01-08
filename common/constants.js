@@ -1,4 +1,7 @@
-const constants = {
+module.exports = {
+    // 系统配置
+    port: 31231, // 启动服务端口号
+
     // 棋盘样式配置
     BACKGROUND_COLOR: '#F8E7B8', // 棋盘背景色
     LINE_COLOR: '#C1A37B', // 棋盘线条色
@@ -30,10 +33,4 @@ const constants = {
     ROOMS_INFO: 'rooms.info', // 游戏大厅信息
 
     MESSAGE: 'message', // 发给客户端的普通消息 {code: 0, data: 'xxx'}, 0：成功、下一步 1：前端toast内容
-}
-
-if (typeof window !== 'undefined' && this === window) {
-    window.constants = constants;
-} else {
-    module.exports = constants;
 }

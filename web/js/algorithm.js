@@ -1,5 +1,8 @@
+// 棋子位置信息
+import { pieceLists } from './var'
+
 // 判断输赢算法 传入新落下棋子位置
-function winAlgorithm(piecePosition) {
+export default function (piecePosition) {
     // 解构新落下棋子的位置信息
     let [pieceX, pieceY] = piecePosition;
     // 四个方向有多少连子 超过5个即为获胜

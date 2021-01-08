@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>五子棋</title>
+    <script src="http://localhost:31231/socket.io/socket.io.js"></script>
+    <title>五子棋111</title>
 </head>
 
 <body>
@@ -43,7 +44,7 @@
             <div class="line" style="justify-content: flex-start;">
                 <div class="avatar-box">
                     <div class="avatar" id="blackAvatar">
-                        <img src="../web/images/avatar-boy.png" alt="" width="100%">
+                        <img src="/images/avatar-boy.png" alt="" width="100%">
                     </div>
                     <div class="ready" id="blackReady">ready</div>
                 </div>
@@ -66,7 +67,7 @@
                 <div class="username" id="whiteUsername">等待玩家加入</div>
                 <div class="avatar-box">
                     <div class="avatar" id="whiteAvatar">
-                        <img src="../web/images/avatar-boy.png" alt="" width="100%">
+                        <img src="/images/avatar-boy.png" alt="" width="100%">
                     </div>
                     <div class="ready" id="whiteReady">ready</div>
                 </div>
@@ -79,13 +80,4 @@
         </div>
     </div>
 </body>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io.connect();
-</script>
-<script src="../common/constants.js"></script>
-<script src="../web/js/lib.js"></script>
-<script src="../web/js/algorithm.js"></script>
-<script src="../web/js/game.js"></script>
-<script src="../web/js/index.js"></script>
 </html>

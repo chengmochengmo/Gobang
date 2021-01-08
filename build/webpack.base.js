@@ -1,13 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 单独提取css
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // 压缩css插件
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const copyWebpackPlugin = require('copy-webpack-plugin'); // 静态资源拷贝
 
 module.exports = {
     entry: './index.js',
-    mode: 'production',
     output: {
         path: path.resolve(__dirname, '../public'),
         filename: 'main.js',
@@ -51,16 +48,14 @@ module.exports = {
         ]
     },
     plugins: [
-        // new CleanWebpackPlugin(), // 清除上一次打包文件
         new HtmlWebpackPlugin({
             template: "./index.html", // html模版
-            filename: 'index1.html'
+            filename: 'index.html'
         }),
         new MiniCssExtractPlugin({
             chunkFilename: 'css/[name].[hash:8].css',
             filename: 'css/[name].[hash:8].css', // name是代码chunk的名字
         }),
-        new OptimizeCssAssetsPlugin(),
         // new copyWebpackPlugin({
         //     patterns: [
         //         { 
@@ -73,11 +68,5 @@ module.exports = {
         //         }
         //     ],
         // })
-    ],
-    devServer: {
-        host: 'localhost',
-        hot: true,
-        compress: true,
-        port: 8080
-    }
+    ]
 }

@@ -6,6 +6,17 @@ const IO = require('socket.io');
 const constants = require('../common/constants'); //全局常量
 const app = express();
 
+// app.all('*', function(req, res, next) {
+//     console.log('expressexpress')
+//     //设为指定的域
+//     res.header('Access-Control-Allow-Origin', "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header("X-Powered-By", ' 3.2.1');
+//     next();
+// });
 // 设置资源访问路径
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/common', express.static(path.join(__dirname, '../common')));
@@ -165,4 +176,4 @@ function emitRoomInfo(roomName) {
     io.in(roomName).emit(constants.PLAYER_JOIN, rooms[roomName]);
 }
 
-server.listen(31231);
+server.listen(constants.port);
