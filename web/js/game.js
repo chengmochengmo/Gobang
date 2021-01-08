@@ -5,13 +5,14 @@ import { showToast, domHandle} from './lib'
 // 判定胜负算法
 import winAlgorithm from './algorithm'
 // 全局变量
-import {
+import publicVar from './var'
+let {
     roomName,
     pieceColor,
     pieceLists,
     otherPieceLists,
     canHandle
-} from './var'
+} = publicVar;
 // 全局常量
 const constants = require('../../common/constants');
 
@@ -94,6 +95,7 @@ class Gobang {
             const {pageX, pageY} = e.targetTouches[0];
             const {offsetTop} = e.targetTouches[0].target;
             this.downingPiece(pageX, pageY - offsetTop);
+            console.log(1)
         },false);
         // 手指抬起事件监听
         this.canvas.addEventListener('touchend',(e)=> {
