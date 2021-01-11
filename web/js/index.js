@@ -4,22 +4,14 @@ import socket from './socket'
 import Gobang from './game'
 // 工具方法
 import { showToast, domHandle, getNode} from './lib'
-// 全局变量
-import publicVar from './var'
-let {
-    Game,
-    roomName,
-    pieceColor,
-    pieceLists,
-    otherPieceLists,
-    canHandle,
-    countDownTime,
-    countDownTimeRunner,
-    countDownTimer,
-    userName,
-    userId,
-    socketId
-} = publicVar;
+// 对局方法
+import { 
+    startGame,
+    reStart,
+    playend,
+    countDownClear,
+    handleDown
+} from './game-methods'
 // 全局常量
 const constants = require('../../common/constants');
 
@@ -32,6 +24,7 @@ window.onload = function () {
         domHandle(inputInfo,'style.display', 'flex');
     }
 }
+
 // 监听与服务器端的连接成功事件
 socket.on(constants.CONNECT,function(){
     console.log('socket连接成功');
@@ -61,49 +54,6 @@ socket.on(constants.CONNECT,function(){
         }
     })
 });
-
-// 惰性函数 渲染游戏大厅
-var renderGamesLobby = function(rooms) {
-    // 初始渲染
-    for (let i in rooms) {
-        let room = rooms[i];
-        let peoples = Object.keys(room);
-        let people1 = peoples.length && room[peoples[0]];
-        let people2 = peoples.length == 2 && room[peoples[1]];
-        let div = `<div class="room-item" id="${i}">
-            <div class="room-item-avatar left-avatar ${people1 || 'filter'}">
-                <img src="${require('/images/avatar-boy.png')}" alt="" width="100%">
-                <div class="room-item-username left-username">${people1 ? people1.userName : '待加入'}</div>
-            </div>
-            <div class="room-item-checkerboard ${peoples.length == 2 ? '' : 'filter'}">
-                <img src="${require('/images/checkerboard.png')}" alt="" width="100%">
-            </div>
-            <div class="room-item-avatar right-avatar ${people2 || 'filter'}"">
-                <img src="${require('/images/avatar-boy.png')}" alt="" width="100%">
-                <div class="room-item-username right-username">${people2 ? people2.userName : '待加入'}</div>
-            </div>
-        </div>`
-        gamesLobby.innerHTML += div;
-    }
-    renderGamesLobby = function (rooms) {
-        // 后续更新
-        for (let i in rooms) {
-            let room = rooms[i];
-            let peoples = Object.keys(room);
-            let people1 = peoples.length && room[peoples[0]];
-            let people2 = peoples.length == 2 && room[peoples[1]];
-            let people1classListHandle = `classList.${people1 ? 'remove' : 'add'}`;
-            domHandle([window[i].getElementsByClassName('left-avatar')[0], window[i].getElementsByClassName('left-username')[0]], 
-                    [people1classListHandle, 'innerText'], 
-                    ['filter', people1 ? people1.userName : '待加入']);
-            if (!people1) continue;
-            let people2classListHandle = `classList.${people2 ? 'remove' : 'add'}`;
-            domHandle([window[i].getElementsByClassName('right-avatar')[0], window[i].getElementsByClassName('right-username')[0], window[i].getElementsByClassName('room-item-checkerboard')[0]], 
-                [people2classListHandle, 'innerText', people2classListHandle], 
-                ['filter', people2 ? people2.userName : '待加入', 'filter']);
-        }
-    }
-}
 
 // 注册全局dom事件
 function documentEventInit() {
@@ -177,7 +127,7 @@ function playerEventInit() {
     });
 }
 
-// 初始化
+// 初始化 开始对局
 function initGame() {
     // 进入游戏
     Game = new Gobang(); 
@@ -266,67 +216,45 @@ function initGame() {
     }); 
 }
 
-// 玩家准备
-function startGame() {
-    domHandle(readyConfirm, 'style.display', 'none');
-    socket.emit(constants.PLAYER_READY, {
-        roomName, userId
-    });
-}
-// 重新开始对局
-function reStart() {
-    domHandle(reStartConfirm, 'style.display', 'none');
-    Game.reLoadGame();
-    pieceLists = [];
-    startGame();
-}
-// 当前对局结束 胜负已分
-function playend(winner) {
-    socket.emit(constants.PLAYER_END, {
-        roomName, winner
-    }); 
-}
-
-// 倒计时 计步时
-function countDown() {
-    if(countDownTimeRunner <= 0) {
-        clearTimeout(countDownTimer);
-        // 时间到了 提示输赢
-        constants.PVPMap.victoryer(canHandle) == 'my' && playend(pieceColor[constants.PVPMap.victoryer(canHandle)]);
-        canHandle = false;
-        return;
+// 惰性函数 渲染游戏大厅
+var renderGamesLobby = function(rooms) {
+    // 初始渲染
+    for (let i in rooms) {
+        let room = rooms[i];
+        let peoples = Object.keys(room);
+        let people1 = peoples.length && room[peoples[0]];
+        let people2 = peoples.length == 2 && room[peoples[1]];
+        let div = `<div class="room-item" id="${i}">
+            <div class="room-item-avatar left-avatar ${people1 || 'filter'}">
+                <img src="${require('/images/avatar-boy.png')}" alt="" width="100%">
+                <div class="room-item-username left-username">${people1 ? people1.userName : '待加入'}</div>
+            </div>
+            <div class="room-item-checkerboard ${peoples.length == 2 ? '' : 'filter'}">
+                <img src="${require('/images/checkerboard.png')}" alt="" width="100%">
+            </div>
+            <div class="room-item-avatar right-avatar ${people2 || 'filter'}"">
+                <img src="${require('/images/avatar-boy.png')}" alt="" width="100%">
+                <div class="room-item-username right-username">${people2 ? people2.userName : '待加入'}</div>
+            </div>
+        </div>`
+        gamesLobby.innerHTML += div;
     }
-    countDownTimeRunner--;
-    if(canHandle) {
-        renderUserCountDown(pieceColor.my, pieceColor.other);
-    } else {
-        renderUserCountDown(pieceColor.other, pieceColor.my);
+    renderGamesLobby = function (rooms) {
+        // 后续更新
+        for (let i in rooms) {
+            let room = rooms[i];
+            let peoples = Object.keys(room);
+            let people1 = peoples.length && room[peoples[0]];
+            let people2 = peoples.length == 2 && room[peoples[1]];
+            let people1classListHandle = `classList.${people1 ? 'remove' : 'add'}`;
+            domHandle([window[i].getElementsByClassName('left-avatar')[0], window[i].getElementsByClassName('left-username')[0]], 
+                    [people1classListHandle, 'innerText'], 
+                    ['filter', people1 ? people1.userName : '待加入']);
+            if (!people1) continue;
+            let people2classListHandle = `classList.${people2 ? 'remove' : 'add'}`;
+            domHandle([window[i].getElementsByClassName('right-avatar')[0], window[i].getElementsByClassName('right-username')[0], window[i].getElementsByClassName('room-item-checkerboard')[0]], 
+                [people2classListHandle, 'innerText', people2classListHandle], 
+                ['filter', people2 ? people2.userName : '待加入', 'filter']);
+        }
     }
-    countDownTimer = setTimeout(function () {
-        countDown();
-    }, 1000)
-}
-
-// 渲染倒计时
-function renderUserCountDown(handle, other) {
-    domHandle([window[handle+ 'CountDown'], window[handle+ 'Avatar'], window[other+ 'Avatar'], window[other+ 'CountDown']], 
-        ['innerText', 'classList.add', 'classList.remove', 'innerText'], 
-        [`${countDownTimeRunner}s`, 'active', 'active', '60s']);
-}
-// 清除计步器
-function countDownClear() {
-    countDownTimeRunner = countDownTime; // 设置步时
-    clearTimeout(countDownTimer);
-    domHandle([blackCountDown, whiteCountDown, blackAvatar, whiteAvatar,], 
-        ['innerText', 'innerText', 'classList.remove', 'classList.remove',], 
-        ['60s', '60s', 'active', 'active']);
-}
-// 落子后重计时
-function countDownRestart() {
-    countDownClear();
-    countDown();
-}
-// 重置落子权
-function handleDown(color) {
-    if(pieceColor.my == color) canHandle = true; // 可以落子了
 }

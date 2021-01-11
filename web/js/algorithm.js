@@ -1,9 +1,3 @@
-// 全局变量 棋子位置信息
-import publicVar from './var'
-let {
-    pieceLists
-} = publicVar;
-
 // 判断输赢算法 传入新落下棋子位置
 export default function (piecePosition) {
     // 解构新落下棋子的位置信息

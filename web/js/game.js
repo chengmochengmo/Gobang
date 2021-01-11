@@ -2,17 +2,10 @@
 import socket from './socket'
 // 工具方法
 import { showToast, domHandle} from './lib'
+// 对局方法
+import { countDownRestart, getPosition} from './game-methods'
 // 判定胜负算法
 import winAlgorithm from './algorithm'
-// 全局变量
-import publicVar from './var'
-let {
-    roomName,
-    pieceColor,
-    pieceLists,
-    otherPieceLists,
-    canHandle
-} = publicVar;
 // 全局常量
 const constants = require('../../common/constants');
 
@@ -181,14 +174,6 @@ class Gobang {
     reLoadGame () {
         this.context.clearRect(0,0,this.canvas.width,this.canvas.width);
         this.init();
-    }
-}
-
-// 计算落子位置
-function getPosition(pageX, pageY, spacing) {
-    return {
-        X: Math.floor(pageX / spacing),
-        Y: Math.floor((pageY  - spacing * 2) / spacing)
     }
 }
 
